@@ -29,8 +29,41 @@
             </form>
         </div>
 
-    </div> 
+    </div>
+    <script src="./js/jquery-1.12.4.min.js"></script>
 
+    <script>
+        $('.input_sub').on('click', function (e) {
+            e.preventDefault();
+            //获取用户输入的账号和密码
+            var userName = $('.input_txt').val().trim();
+            var password = $('.input_pass').val().trim();
+            //做非空判断.如果为空,弹框提示下,不为空则继续
+
+            if (userName == "" || password == "") {
+                alert('请输入内容')
+                return;
+            };
+            $.ajax({
+                type: 'post',
+                url: 'https://autumnfish.cn/big/admin/login',
+                data: {
+                    user_name: userName,
+                    password: password
+                },
+                success(data) {
+                    console.log(data);
+                    //判断是否密码正确,正确就跳转页面,不正确弹出提示框
+
+                    if (data.code == 200) {
+                        window.location.href = "index.html"
+                    } else {
+                        alert('密码错误')
+                    }
+                }
+            })
+        })
+    </script>
 </body>
 
 </html>
