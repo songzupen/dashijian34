@@ -156,6 +156,25 @@
 
                 }
             })
+            
+        })
+        
+                    //      步骤
+                    // 1. 进入到首页之后
+                    // 2. 通过用户信息接口获取用户的数据
+                    // 3. 渲染到页面上
+                    //   发送请求
+        $.ajax({
+            url: 'http://localhost:8000/admin/getuser',
+            type: 'get',
+            success: function (usermsg) {
+                // console.log(usermsg);
+                $('.user_info>img').attr("src",usermsg.data.user_pic)
+                $('.user_info>span').html("欢迎&nbsp;&nbsp;"+usermsg.data.nickname)
+                 
+
+            },
+
         })
     </script>
 
