@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css">
     <link rel="stylesheet" type="text/css" href="css/iconfont.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="./js/bootstrap/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -28,10 +29,30 @@
                 <input type="submit" class="input_sub" value="登 录">
             </form>
         </div>
-
     </div>
+    <!-- 模态 -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">提示框</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  jQ -->
     <script src="./js/jquery-1.12.4.min.js"></script>
-
+    <!-- 模态 -->
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     <script>
         $('.input_sub').on('click', function (e) {
             e.preventDefault();
@@ -39,9 +60,11 @@
             var userName = $('.input_txt').val().trim();
             var password = $('.input_pass').val().trim();
             //做非空判断.如果为空,弹框提示下,不为空则继续
-
             if (userName == "" || password == "") {
-                alert('请输入内容')
+                $('.modal-body').text("账号密码不能为空,请重新输入")
+                $('#myModal').modal({
+                            keyboard: true
+                        })
                 return;
             };
             $.ajax({
@@ -52,13 +75,15 @@
                     password: password
                 },
                 success(data) {
-                    console.log(data);
+                    // console.log(data);
                     //判断是否密码正确,正确就跳转页面,不正确弹出提示框
-
                     if (data.code == 200) {
                         window.location.href = "index.html"
                     } else {
-                        alert('密码错误')
+                        $('.modal-body').text('账号密码错误,请重新输入')
+                        $('#myModal').modal({
+                            keyboard: true
+                        })
                     }
                 }
             })
