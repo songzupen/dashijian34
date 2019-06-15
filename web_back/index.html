@@ -169,9 +169,9 @@
             type: 'get',
             success: function (usermsg) {
                 // console.log(usermsg);
-                $('.user_info>img').attr("src",usermsg.data.user_pic)
-                $('.user_info>span').html("欢迎&nbsp;&nbsp;"+usermsg.data.nickname);
-                $('.user_center_link>img').attr("src",usermsg.data.user_pic)
+                $('.user_info img').attr("src",usermsg.data.user_pic)
+                $('.user_info span').html("欢迎&nbsp;&nbsp;"+usermsg.data.nickname);
+                $('.user_center_link img').attr("src",usermsg.data.user_pic)
                  
             },
 
