@@ -22,21 +22,21 @@
         <div class="container-fluid common_con">
             <form class="form-horizontal article_form">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label ">用户名称：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label" ></label>用户名称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control username" id="inputEmail3" value="李思思">
+                        <input type="text"  class="form-control username" id="inputEmail3" value="李思思" name="username">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label  ">昵称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control nickname " id="inputEmail3" value="思思">
+                        <input type="text" class="form-control nickname " id="inputEmail3" value="思思" name=nickname>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label ">邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control email" id="inputEmail3" value="lisisi@126.com">
+                        <input type="text" class="form-control email" id="inputEmail3" value="lisisi@126.com" name="eamil">
                     </div>
                 </div>
 
@@ -45,14 +45,14 @@
                     <div class="col-sm-10">
                         <img src="images/2.jpg" alt="" class="user_pic">
                         <!-- <label for="exampleInputFile"> <img src="./images/logo.png" alt=""></label> -->
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" id="exampleInputFile" name="user_pic">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label ">密码：</label>
                     <div class="col-sm-4">
-                        <input type="password" class="form-control password" id="inputEmail3" value="12345678">
+                        <input type="password" class="form-control password" id="inputEmail3" value="12345678" name="password">
                     </div>
                 </div>
 
@@ -103,7 +103,32 @@
                 $('.user_pic').attr('src', url);
             })
 
+            //  为修改按钮添加点击事件
+            $('.btn-success').on('click', function (e) {
+                e.preventDefault();
+                //创建一个fromData构造函数获取form表单里的数据用变量接收
+                // 根据fromFata函数获取form表单的数据
+                var formData = new FormData($('form.article_form')[0])
+                // 发送请求
+                $.ajax({
+                    url: 'http://localhost:8000/admin/userinfo_edit',
+                    type: 'post',
+                    data: formData,
+                    //不设置请求头
+                    contentType: false,
+                    //不改变数据结构
+                    processData: false,
 
+                    success: function (changeusermsg) {
+                        console.log(changeusermsg);
+
+                        if (changeusermsg.code == 200) {
+                            console.log('修改成功');
+
+                        }
+                    },
+                })
+            })
         })
     </script>
 
