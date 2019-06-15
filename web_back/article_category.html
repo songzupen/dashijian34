@@ -213,6 +213,7 @@
           //给删除按钮添加点击事件,用委托注册
 
           $('tbody').on('click','a.btn-delete',function(){
+              var that = $(this)
 
             //获取当前这条数据的id
             var id =parseInt($(this).attr('del-id'));
@@ -225,9 +226,10 @@
                     id:id
                 },
                 success:function(backData){
-                    console.log(backData); 
+                    // console.log(backData); 
                     if(backData.code==200){
-                        get();
+                        // get();
+                        that.parent().parent().remove()
                     } 
 
                 }
