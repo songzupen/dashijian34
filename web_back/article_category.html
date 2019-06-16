@@ -180,9 +180,12 @@
             }
                get();
 
-            //点击模态框中的确认按钮
+            //点击模态框中的新增/编辑按钮
             $('#model_add').click(function () {
-                //获取用户要新增的 文字类别和别名
+                if($(this).hasClass('btn-success')){
+
+                }else{
+                         //获取用户要新增的 文字类别和别名
                 var recipient_name = $('#recipient-name').val();
                 var recipient_nickname = $('#recipient-nickname').val();
 
@@ -204,6 +207,9 @@
                         }
                     }
                 });
+
+                }
+           
 
                 //隐藏模态框
                 $('#addModal').modal('hide');
@@ -234,8 +240,20 @@
           });
          //用委托的方式给编辑按钮添加注册事件
          $('tbody').on('click','a.btn-reva',function(){
-              //点击编辑按钮 弹出的模态框,要修改他的title和按钮的名字,样式
+            //  点击编辑按钮获取模态框里的值
 
+               var name= $(this).parent().prev().prev().text()
+               var slug= $(this).parent().prev().text()
+            //    console.log(name);
+            //    console.log(slug);
+            // 赋值给input
+
+            $('#recipient-name').val(name);
+            $('#recipient-nickname').val(slug);
+               
+
+
+              //点击编辑按钮 弹出的模态框,要修改他的title和按钮的名字,样式
               $('#addModal .modal-title').html('修改分类');
                 $('#addModal').modal('show');
                 $('#model_add').text('保存').addClass('btn-success')
