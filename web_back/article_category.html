@@ -73,7 +73,8 @@
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-center">
-                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addModal" id="newa">新增分类</a>
+                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#addModal"
+                                id="newa">新增分类</a>
                         </td>
                     </tr>
                 </tfoot>
@@ -139,7 +140,7 @@
             <td>{{$value.name}}</td>
             <td>{{$value.slug}}</td>
             <td class="text-center">
-                <a href="javascript:void(0);"class="btn btn-info btn-xs btn-reva" data-id = "{{$value.id}}">编辑</a>
+                <a href="javascript:void(0);" class="btn btn-info btn-xs btn-reva" data-id="{{$value.id}}">编辑</a>
                 <a href="javascript:void(0);" del-id="{{$value.id}}" class="btn btn-danger btn-xs btn-delete">删除</a>
             </td>
         </tr>
@@ -180,119 +181,124 @@
                 });
 
             }
-               get();
+            get();
 
             //点击模态框中的新增/编辑按钮
             $('#model_add').click(function () {
-                if($(this).hasClass('btn-success')){
-                     //点击保存,获取修改之后的类名和别名
-                //      var editeid = $('#recipient-id').val()
-                //      var recipient_name = $('#recipient-name').val();
-                //   var recipient_nickname = $('#recipient-nickname').val();
-                var date =$('form').serialize();
-                // console.log(recipient_name+":"+ recipient_nickname+":"+editeid +":");
-                // 发送请求
-                $.ajax({
-                    type:'post',
-                    url:'http://localhost:8000/admin/category_edit',
-                    // data:{
-                    //     id :editeid,
-                    //     slug:recipient_nickname,
-                    //     name:recipient_name
-                    // },
-                    data:date,
-                    success:function(backData){
-                        // console.log(backData);
-                        if(backData.code==200){
-                            get()
+                if ($(this).hasClass('btn-success')) {
+                    //点击保存,获取修改之后的类名和别名
+                    //      var editeid = $('#recipient-id').val()
+                    //      var recipient_name = $('#recipient-name').val();
+                    //   var recipient_nickname = $('#recipient-nickname').val();
+                    var date = $('form').serialize();
+                    // console.log(recipient_name+":"+ recipient_nickname+":"+editeid +":");
+                    // 发送请求
+                    $.ajax({
+                        type: 'post',
+                        url: 'http://localhost:8000/admin/category_edit',
+                        // data:{
+                        //     id :editeid,
+                        //     slug:recipient_nickname,
+                        //     name:recipient_name
+                        // },
+                        data: date,
+                        success: function (backData) {
+                            // console.log(backData);
+                            if (backData.code == 200) {
+                                get()
+                                $('#recipient-id').val()
+                                $('#recipient-name').val();
+                                $('#recipient-nickname').val();
+                            }
 
                         }
-                        
-                    }
-                })
-                
-                   
+                    })
 
-                }else{
-                         //获取用户要新增的 文字类别和别名
-                var recipient_name = $('#recipient-name').val();
-                var recipient_nickname = $('#recipient-nickname').val();
 
-                //发送ajax请求
-                $.ajax({
-                    type: 'post',
-                    url: 'http://localhost:8000/admin/category_add',
-                    data: {
-                        name: recipient_name,
-                        slug: recipient_nickname
-                    },
-                    success: function (backData) {
-                        //console.log(backData);
-                        if (backData.code == 200) {
-                            //新增成功后,重新的发送一次ajax请求加载所有的文字类别
-                            get();
-                        } else if (backData.code == 400) {
-                            alert('请检查当前的name和slug存在,并更改')
+
+                } else {
+                    //获取用户要新增的 文字类别和别名
+                    var recipient_name = $('#recipient-name').val();
+                    var recipient_nickname = $('#recipient-nickname').val();
+
+                    //发送ajax请求
+                    $.ajax({
+                        type: 'post',
+                        url: 'http://localhost:8000/admin/category_add',
+                        data: {
+                            name: recipient_name,
+                            slug: recipient_nickname
+                        },
+                        success: function (backData) {
+                            //console.log(backData);
+                            if (backData.code == 200) {
+                                //新增成功后,重新的发送一次ajax请求加载所有的文字类别
+                                get();
+                            } else if (backData.code == 400) {
+                                alert('请检查当前的name和slug存在,并更改')
+                            }
                         }
-                    }
-                });
+                    });
 
                 }
-           
+
 
                 //隐藏模态框
                 $('#addModal').modal('hide');
             });
-          //给删除按钮添加点击事件,用委托注册
-          $('tbody').on('click','a.btn-delete',function(){
-              var that = $(this)
+            //给删除按钮添加点击事件,用委托注册
+            $('tbody').on('click', 'a.btn-delete', function () {
+                var that = $(this)
 
-            //获取当前这条数据的id
-            var id =$(this).attr('del-id');
-            console.log(id);
-            // 发送请求
+                //获取当前这条数据的id
+                var id = $(this).attr('del-id');
+                console.log(id);
+                // 发送请求
 
-            $.ajax({
-                url:'http://localhost:8000/admin/article_delete',
-                data:{
-                    id:id
-                },
-                success:function(backData){
-                    // console.log(backData); 
-                    if(backData.code==200){
-                        // get();
-                        that.parent().parent().remove()
-                    } 
+                $.ajax({
+                    url: 'http://localhost:8000/admin/article_delete',
+                    data: {
+                        id: id
+                    },
+                    success: function (backData) {
+                        // console.log(backData); 
+                        if (backData.code == 200) {
+                            // get();
+                            that.parent().parent().remove()
+                        }
 
-                }
-            })
-          });
-         //用委托的方式给编辑按钮添加注册事件
-         $('tbody').on('click','a.btn-reva',function(){
-            //  点击编辑按钮获取模态框里的值和
-               var id = $(this).attr('data-id')//获取当前按钮自定义属性的id
-               var name= $(this).parent().prev().prev().text()
-               var slug= $(this).parent().prev().text()
-            //    console.log(name);
-            //    console.log(slug);
-            // 赋值给input
+                    }
+                })
+            });
+            //用委托的方式给编辑按钮添加注册事件
+            $('tbody').on('click', 'a.btn-reva', function () {
+                //  点击编辑按钮获取模态框里的值和
+                var id = $(this).attr('data-id') //获取当前按钮自定义属性的id
+                var name = $(this).parent().prev().prev().text()
+                var slug = $(this).parent().prev().text()
+                //    console.log(name);
+                //    console.log(slug);
+                // 赋值给input
 
-            $('#recipient-name').val(name);
-            $('#recipient-nickname').val(slug);
-            $('#recipient-id').val(id)
-               
-              //点击编辑按钮 弹出的模态框,要修改他的title和按钮的名字,样式
-              $('#addModal .modal-title').html('修改分类');
+                $('#recipient-name').val(name);
+                $('#recipient-nickname').val(slug);
+                $('#recipient-id').val(id)
+
+                //点击编辑按钮 弹出的模态框,要修改他的title和按钮的名字,样式
+                $('#addModal .modal-title').html('修改分类');
                 $('#addModal').modal('show');
                 $('#model_add').text('保存').addClass('btn-success')
-               
-         })
-         //点击新增分类按钮,袒护模态框,信息还原
 
-         $('#newa').on('click',function(){
-            $('#addModal .modal-title').html('新增分类');
+            })
+            //点击新增分类按钮,袒护模态框,信息还原
+
+            $('#newa').on('click', function () {
+                $('#recipient-id').val("")
+                $('#recipient-name').val("");
+                $('#recipient-nickname').val("");
+                $('#addModal .modal-title').html('新增分类');
                 $('#model_add').text('新增').removeClass('btn-success')
-         });
+            });
 
         })
     </script>
