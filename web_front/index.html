@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
+
+
 </head>
 
 <body>
@@ -215,11 +217,54 @@
             <span>|</span>
             <a href="#">招聘人才</a>
             <span>|</span>
-            <a href="#">友情链接</a>		
+            <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
-        <p>电话：0755-****888    粤ICP备*******8号</p>
+        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
+        <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <script src="../web_back/js/template-web.js"></script>
+    <script id="tem-xq" type="text/html">
+        {{each data v}}
+        <!-- //$.value  和$index  $index ==0取第一个值 -->
+        <!-- //如果下标为0即取第一个值,就为类名为first的标签 -->
+        <!-- 其他为li标签 -->
+        {{if $index==0}}
+        <li class='first'>
+            {{else}}
+        <li>
+            {{/if}}
+            <a href="#"><img src="{{v.cover}}" alt=""></a>
+            <p>{{v.title}}</p>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        //一进到前台首页,发送请求,获取最新的文章
+        $(function () {
+            $.ajax({
+                url: 'http://localhost:8000/admin/search',
+                data: {
+                    key: "",
+                    page: 1,
+                    perpage: "5",
+                    type: "",
+                    state: "",
+                },
+                success: function (backData) {
+                    console.log(backData);
+                    if (backData.code == 200) {
+                        //通过模板引擎把返回的数据渲染到页面
+                        //调用模板引擎的方法
+                        var resHtml = template('tem-xq', backData)
+
+                        $('.focus_list').html(resHtml)
+
+                    }
+                }
+            });
+        })
+    </script>
 
 </body>
 
